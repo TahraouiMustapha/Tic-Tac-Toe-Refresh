@@ -1,5 +1,7 @@
 const gameboard = (function () {
-    gameboardArray = [];
+    gameboardArray = ['','','',
+                      '','','',  
+                      '','',''];
 
     const getGameboard = () => gameboardArray ;
 
@@ -9,9 +11,13 @@ const gameboard = (function () {
         }
     }
 
+    const gameOver = () => {
+        return gameboardArray.every(( cell ) => cell != '');
+    }
     return {
         getGameboard,
-        fillGameboard
+        fillGameboard,
+        gameOver
     }
 
 })();
@@ -35,6 +41,7 @@ const game = (function() {
         gameboard.fillGameboard(1, player2.marker);
     
         console.log( gameboard.getGameboard() )
+        
     }
 
     return {
