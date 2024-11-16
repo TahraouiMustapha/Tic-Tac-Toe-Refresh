@@ -85,5 +85,8 @@ const game = (function() {
     
 })();
 
+const displayController = (function () {
 
-game.startGame();
+    console.log(gameboard.getGameboard());
+
+})();
