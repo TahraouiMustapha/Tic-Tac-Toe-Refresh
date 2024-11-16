@@ -87,6 +87,21 @@ const game = (function() {
 
 const displayController = (function () {
 
-    console.log(gameboard.getGameboard());
+    const renderContent = () => {
+        if(!!document) {
+            const domCells = Array.from(document.querySelectorAll('.cell'));
+            const myBoard = gameboard.getGameboard();
+            
+            for(let index = 0; index < myBoard.length; index ++) {
+                domCells[index].textContent = myBoard[index]
+            }
+        }
+    }
+
+    return {
+        renderContent
+    }
 
 })();
+
+displayController.renderContent();
