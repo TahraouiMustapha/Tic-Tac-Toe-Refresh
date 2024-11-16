@@ -1,9 +1,12 @@
 const gameboard = (function () {
-    gameboardArray = ['O','O','O',
-                      '','X','',  
+    gameboardArray = ['','','',
+                      '','','',  
                       '','',''];
 
     const getGameboard = () => gameboardArray ;
+    const resetGameboard = () =>     gameboardArray = ['','','',
+                                                        '','','',  
+                                                        '','',''];
 
     const fillGameboard = (choice, marker) => {
         if( !gameboardArray[choice] ) {
@@ -37,15 +40,22 @@ const gameboard = (function () {
         getGameboard,
         fillGameboard,
         gameOver,
-        checkWinner
+        checkWinner,
+        resetGameboard
     }
 
 })();
 
 function createPlayer( name, marker) {
+
+    const isMyMark= function (marker) {
+        return this.marker === marker;
+    }
+
     return {
         name, 
         marker, 
+        isMyMark
     }
 }
 
@@ -54,15 +64,17 @@ const game = (function() {
     const player2 = createPlayer('Abdo', 'O');
     
 
-
     const startGame = () => {
         console.log('start game');
+        let  winnerPlayer = '';
+
+        
         if(gameboard.checkWinner()) {
-            console.log(gameboard.checkWinner());
-        } else {
-            console.log('no')
-        }
-    
+            let winnerMark = gameboard.checkWinner();
+            winnerPlayer = player1.isMyMark(winnerMark) ? player1 : player2 ;
+            gameboard.resetGameboard();
+            console.log('the winner is ' + winnerPlayer.name);
+        } 
         console.log( gameboard.getGameboard() )
         
     }
