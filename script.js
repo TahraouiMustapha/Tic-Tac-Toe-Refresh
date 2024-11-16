@@ -1,6 +1,6 @@
 const gameboard = (function () {
-    gameboardArray = ['','','',
-                      '','','',  
+    gameboardArray = ['O','O','O',
+                      '','X','',  
                       '','',''];
 
     const getGameboard = () => gameboardArray ;
@@ -14,10 +14,30 @@ const gameboard = (function () {
     const gameOver = () => {
         return gameboardArray.every(( cell ) => cell != '');
     }
+
+    const checkWinner = () => {
+        let winnerMark = '';
+        const checkArray = [[0,1,2], [3,4,5], [6,7,8], //for lignes
+                            [0,3,6], [1,4,7], [2,5,8], //for colonnes
+                            [0,4,8], [2,4,6] ] ;//for Diameters
+
+        checkArray.forEach( (arr) => {
+            if(gameboardArray[arr[0]] === gameboardArray[arr[1]] 
+                && gameboardArray[arr[0]] === gameboardArray[arr[2]]
+                && winnerMark == ''
+            ) {
+                winnerMark = gameboardArray[arr[0]];
+            }
+        })        
+        
+        return winnerMark;
+    }
+
     return {
         getGameboard,
         fillGameboard,
-        gameOver
+        gameOver,
+        checkWinner
     }
 
 })();
@@ -25,7 +45,7 @@ const gameboard = (function () {
 function createPlayer( name, marker) {
     return {
         name, 
-        marker
+        marker, 
     }
 }
 
@@ -37,8 +57,11 @@ const game = (function() {
 
     const startGame = () => {
         console.log('start game');
-        gameboard.fillGameboard(0, player1.marker);
-        gameboard.fillGameboard(1, player2.marker);
+        if(gameboard.checkWinner()) {
+            console.log(gameboard.checkWinner());
+        } else {
+            console.log('no')
+        }
     
         console.log( gameboard.getGameboard() )
         
