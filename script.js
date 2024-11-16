@@ -11,6 +11,9 @@ const gameboard = (function () {
     const fillGameboard = (choice, marker) => {
         if( !gameboardArray[choice] ) {
             gameboardArray[choice] = marker;
+            return true;
+        } else {
+            return false;
         }
     }
 
@@ -62,6 +65,7 @@ function createPlayer( name, marker) {
 const game = (function() {
     const player1 = createPlayer('mohamed', 'X');
     const player2 = createPlayer('Abdo', 'O');
+    let currentPlayer = player1;
     
 
     const startGame = () => {
@@ -79,8 +83,17 @@ const game = (function() {
         
     }
 
+    const getCurrentPlayer = () => currentPlayer;
+    const switchPlayer = () => {
+        if(currentPlayer === player1) currentPlayer = player2;
+        else currentPlayer = player1;
+    } 
+
+
     return {
-        startGame
+        startGame, 
+        getCurrentPlayer,
+        switchPlayer
     }
     
 })();
@@ -88,6 +101,20 @@ const game = (function() {
 const displayController = (function () {
 
     const renderContent = () => {
+        if( !!document ) {
+            const domCells = Array.from(document.querySelectorAll('.cell'));
+            domCells.forEach((cell) => {
+                cell.addEventListener('click', (e) => {
+                    //get the marker of current player
+                    let marker = game.getCurrentPlayer().marker;
+                    addMark(e.target.dataset.index, marker);
+                })
+            })
+        }
+        updateContent();
+    }
+
+    const updateContent = () => {
         if(!!document) {
             const domCells = Array.from(document.querySelectorAll('.cell'));
             const myBoard = gameboard.getGameboard();
@@ -98,8 +125,16 @@ const displayController = (function () {
         }
     }
 
+    const addMark = (index, marker) => {
+        if( gameboard.fillGameboard(index, marker)) {
+            game.switchPlayer();
+            updateContent();
+        }
+    }
+
     return {
-        renderContent
+        renderContent,
+        updateContent
     }
 
 })();
