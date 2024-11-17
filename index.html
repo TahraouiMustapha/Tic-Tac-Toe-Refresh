@@ -8,6 +8,25 @@
     <script src="script.js" defer></script>
 </head>
 <body>
+    <dialog open>
+        <form action="" method="dialog">
+            <p>
+                <label for="player1-name">Player 1 ( X )</label>
+                <input type="text" id="player1-name" 
+                name = "player1_name"  
+                placeholder="Name" required >
+            </p>
+
+            <p>
+                <label for="player2-name">Player 2 ( O )</label>
+                <input type="text" id="player2-name"
+                name = "player2_name"  
+                placeholder="Name" required >       
+            </p>
+            <button> Start </button>
+        </form>
+    </dialog>
+
     <div class="container">
         <div class="cell" data-index="0"></div>
         <div class="cell" data-index="1"></div>

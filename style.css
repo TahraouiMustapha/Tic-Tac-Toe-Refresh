@@ -37,3 +37,47 @@ body {
 .cell:hover {
     box-shadow: 10px 10px 31px -3px rgba(0,0,0,0.75);
 }
+
+dialog[open] {
+    width: 400px;
+    height: 250px;
+    justify-self: center;
+    padding: 20px;
+    border-radius: 16px;
+    border: none;
+}
+
+::backdrop {
+    opacity: 0.7;
+}
+
+form > p {
+    margin-top: 18px;
+}
+
+input[type = "text"] {
+    width: 80%;
+    margin-top: 4px;
+    height: 32px;
+    padding: 0 12px;
+    font-size: 1.1em;
+    outline: none;
+    border: 0.5px solid #737272;
+    border-radius: 8px;
+}
+
+
+button {
+    margin-top: 24px;
+    margin-left: 32px;
+    cursor: pointer;
+    padding: 8px 24px ;
+    font-size: 1.2em;
+    border: none;
+    border-radius: 16px;
+    background-color: #333333;
+    color: #fff;
+}
+
+ 
+

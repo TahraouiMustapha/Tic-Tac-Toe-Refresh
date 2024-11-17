@@ -76,7 +76,7 @@ const game = (function() {
                 displayController.updateContent();
                 if( gameboard.checkWinner()) {
                     winnerPlayer = currentPlayer;
-                    console.log('the winner is : '+ winnerPlayer.name);
+                    console.log( winnerPlayer.marker + ' is win');
                 } else {
                     switchPlayer();
                 }
