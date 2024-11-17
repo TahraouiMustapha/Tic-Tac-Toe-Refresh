@@ -50,15 +50,9 @@ const gameboard = (function () {
 })();
 
 function createPlayer( name, marker) {
-
-    const isMyMark= function (marker) {
-        return this.marker === marker;
-    }
-
     return {
         name, 
-        marker, 
-        isMyMark
+        marker
     }
 }
 
@@ -66,24 +60,32 @@ const game = (function() {
     const player1 = createPlayer('mohamed', 'X');
     const player2 = createPlayer('Abdo', 'O');
     let currentPlayer = player1;
+    let winnerPlayer = '';
     
 
     const startGame = () => {
         console.log('start game');
-        let  winnerPlayer = '';
-
-        
-        if(gameboard.checkWinner()) {
-            let winnerMark = gameboard.checkWinner();
-            winnerPlayer = player1.isMyMark(winnerMark) ? player1 : player2 ;
-            gameboard.resetGameboard();
-            console.log('the winner is ' + winnerPlayer.name);
-        } 
-        console.log( gameboard.getGameboard() )
-        
+        displayController.renderContent();
     }
 
-    const getCurrentPlayer = () => currentPlayer;
+    const playTurn = ( index ) => {
+        if(!gameboard.gameOver() && !winnerPlayer) {
+            let marker = currentPlayer.marker;
+            if( gameboard.fillGameboard(index, marker) ) {
+                
+                displayController.updateContent();
+                if( gameboard.checkWinner()) {
+                    winnerPlayer = currentPlayer;
+                    console.log('the winner is : '+ winnerPlayer.name);
+                } else {
+                    switchPlayer();
+                }
+            }
+        } else {
+            console.log('gameOver');
+        }
+    }
+
     const switchPlayer = () => {
         if(currentPlayer === player1) currentPlayer = player2;
         else currentPlayer = player1;
@@ -92,7 +94,7 @@ const game = (function() {
 
     return {
         startGame, 
-        getCurrentPlayer,
+        playTurn,
         switchPlayer
     }
     
@@ -105,9 +107,7 @@ const displayController = (function () {
             const domCells = Array.from(document.querySelectorAll('.cell'));
             domCells.forEach((cell) => {
                 cell.addEventListener('click', (e) => {
-                    //get the marker of current player
-                    let marker = game.getCurrentPlayer().marker;
-                    addMark(e.target.dataset.index, marker);
+                    game.playTurn(e.target.dataset.index);
                 })
             })
         }
@@ -125,13 +125,6 @@ const displayController = (function () {
         }
     }
 
-    const addMark = (index, marker) => {
-        if( gameboard.fillGameboard(index, marker)) {
-            game.switchPlayer();
-            updateContent();
-        }
-    }
-
     return {
         renderContent,
         updateContent
@@ -139,4 +132,4 @@ const displayController = (function () {
 
 })();
 
-displayController.renderContent();
+game.startGame();
