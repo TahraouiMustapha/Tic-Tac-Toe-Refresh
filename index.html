@@ -8,7 +8,7 @@
     <script src="script.js" defer></script>
 </head>
 <body>
-    <dialog open>
+    <dialog >
         <form action="" method="dialog">
             <p>
                 <label for="player1-name">Player 1 ( X )</label>
@@ -23,9 +23,9 @@
                 name = "player2_name"  
                 placeholder="Name" required >       
             </p>
-            <button> Start </button>
+            <button id="start-btn"> Start </button>
         </form>
-    </dialog>
+    </dialog> 
 
     <div class="container">
         <div class="cell" data-index="0"></div>
@@ -38,6 +38,7 @@
         <div class="cell" data-index="7"></div>
         <div class="cell" data-index="8"></div>
     </div>
+    <button> Restart </button>
     
 </body>
 </html>

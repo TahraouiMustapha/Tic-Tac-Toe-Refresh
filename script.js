@@ -57,8 +57,8 @@ function createPlayer( name, marker) {
 }
 
 const game = (function() {
-    const player1 = createPlayer('mohamed', 'X');
-    const player2 = createPlayer('Abdo', 'O');
+    const player1 = createPlayer('', 'X');
+    const player2 = createPlayer('', 'O');
     let currentPlayer = player1;
     let winnerPlayer = '';
     
@@ -76,7 +76,7 @@ const game = (function() {
                 displayController.updateContent();
                 if( gameboard.checkWinner()) {
                     winnerPlayer = currentPlayer;
-                    console.log( winnerPlayer.marker + ' is win');
+                    console.log( winnerPlayer.name + ' is win');
                 } else {
                     switchPlayer();
                 }
@@ -91,16 +91,37 @@ const game = (function() {
         else currentPlayer = player1;
     } 
 
+    const setPlayersNames = (player1Name, player2Name) =>{
+        player1.name = player1Name;
+        player2.name = player2Name;
+    }
+
 
     return {
         startGame, 
         playTurn,
-        switchPlayer
+        switchPlayer,
+        setPlayersNames
     }
     
 })();
 
 const displayController = (function () {
+    const myDialog = document.querySelector('dialog');
+    const startBtn = document.querySelector('#start-btn');
+
+    startBtn.addEventListener('click', () => {
+        const player1Name = document.querySelector('input[name="player1_name"]').value;
+        const player2Name = document.querySelector('input[name="player2_name"]').value;
+
+        if(!!player1Name && !!player2Name) {
+            game.setPlayersNames(player1Name, player2Name);
+            game.startGame();
+        }
+
+    })
+
+    const openDialog = () => myDialog.showModal();
 
     const renderContent = () => {
         if( !!document ) {
@@ -127,9 +148,10 @@ const displayController = (function () {
 
     return {
         renderContent,
-        updateContent
+        updateContent,
+        openDialog
     }
 
 })();
 
-game.startGame();
+displayController.openDialog();
