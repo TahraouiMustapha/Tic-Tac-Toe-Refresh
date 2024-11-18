@@ -68,6 +68,14 @@ const game = (function() {
         displayController.renderContent();
     }
 
+    const resetGame = () => {
+        gameboard.resetGameboard();
+        displayController.updateContent();
+        player1.name = '';
+        player2.name = '';
+        winnerPlayer = '';
+    }
+
     const playTurn = ( index ) => {
         if(!gameboard.gameOver() && !winnerPlayer) {
             let marker = currentPlayer.marker;
@@ -98,7 +106,8 @@ const game = (function() {
 
 
     return {
-        startGame, 
+        startGame,
+        resetGame, 
         playTurn,
         switchPlayer,
         setPlayersNames
@@ -109,6 +118,8 @@ const game = (function() {
 const displayController = (function () {
     const myDialog = document.querySelector('dialog');
     const startBtn = document.querySelector('#start-btn');
+    const restartBtn = document.querySelector('#restart-btn');
+    let cellsHaveEventlistener = false;
 
     startBtn.addEventListener('click', () => {
         const player1Name = document.querySelector('input[name="player1_name"]').value;
@@ -121,16 +132,23 @@ const displayController = (function () {
 
     })
 
+    restartBtn.addEventListener('click', () => {
+        game.resetGame();
+        openDialog();
+    })
+
     const openDialog = () => myDialog.showModal();
 
     const renderContent = () => {
-        if( !!document ) {
+        if( !!document && !cellsHaveEventlistener) {
             const domCells = Array.from(document.querySelectorAll('.cell'));
             domCells.forEach((cell) => {
                 cell.addEventListener('click', (e) => {
                     game.playTurn(e.target.dataset.index);
                 })
             })
+
+            cellsHaveEventlistener = true;
         }
         updateContent();
     }
@@ -154,4 +172,5 @@ const displayController = (function () {
 
 })();
 
-displayController.openDialog();
+// displayController.openDialog();
+game.startGame()
