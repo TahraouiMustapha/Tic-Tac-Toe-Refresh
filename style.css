@@ -81,5 +81,13 @@ button {
     color: #fff;
 }
 
+.result {
+    margin-bottom: 18px;
+    font-size: 4em;
+}
+
+.result > span {
+    color: #22c55e;
+}
  
 

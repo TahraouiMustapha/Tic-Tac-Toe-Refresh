@@ -64,7 +64,7 @@ const game = (function() {
     
 
     const startGame = () => {
-        console.log('start game');
+        displayController.showResult().startGame();
         displayController.renderContent();
     }
 
@@ -84,13 +84,13 @@ const game = (function() {
                 displayController.updateContent();
                 if( gameboard.checkWinner()) {
                     winnerPlayer = currentPlayer;
-                    console.log( winnerPlayer.name + ' is win');
+                    displayController.showResult().isWin( winnerPlayer.name );
                 } else {
                     switchPlayer();
                 }
             }
         } else {
-            console.log('gameOver');
+            displayController.showResult().gameOver();
         }
     }
 
@@ -119,6 +119,7 @@ const displayController = (function () {
     const myDialog = document.querySelector('dialog');
     const startBtn = document.querySelector('#start-btn');
     const restartBtn = document.querySelector('#restart-btn');
+    const displayResult = document.querySelector('.result');
     let cellsHaveEventlistener = false;
 
     startBtn.addEventListener('click', () => {
@@ -164,13 +165,37 @@ const displayController = (function () {
         }
     }
 
+    const showResult = () => {
+        function startGame() {
+            displayResult.textContent = 'Tic Tac Toe';
+        }
+
+        function isWin( winnerName ) {
+            const mySpan = document.createElement('span');
+            mySpan.textContent = winnerName;
+            displayResult.textContent = '';
+            displayResult.appendChild(mySpan);
+            displayResult.appendChild(document.createTextNode(' is Win')) ; 
+        }
+
+        function gameOver() {
+            displayResult.textContent = 'Game Over !';
+        }
+
+        return {
+            isWin,
+            gameOver, 
+            startGame
+        }
+    }
+
     return {
         renderContent,
         updateContent,
-        openDialog
+        openDialog,
+        showResult
     }
 
 })();
 
-// displayController.openDialog();
-game.startGame()
+displayController.openDialog();
